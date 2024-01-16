@@ -1,0 +1,10 @@
+# Comiru
+
+HOST,stage.comiru.com,Comiru
+HOST,admin.stage.comiru.com,Comiru
+HOST,staging2.comiru.com,Comiru
+HOST,admin.stage2.comiru.com,Comiru
+HOST-SUFFIX,stage.comiru.com,Comiru
+HOST-SUFFIX,admin.stage.comiru.com,Comiru
+HOST-SUFFIX,staging2.comiru.com,Comiru
+HOST-SUFFIX,admin.stage2.comiru.com,Comiru
