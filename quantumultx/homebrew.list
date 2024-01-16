@@ -1,0 +1,6 @@
+# Homebrew
+
+HOST,formulae.brew.sh,Homebrew
+HOST,brew.sh,Homebrew
+HOST-SUFFIX,formulae.brew.sh,Homebrew
+HOST-SUFFIX,brew.sh,Homebrew
