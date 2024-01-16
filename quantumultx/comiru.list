@@ -5,7 +5,11 @@ HOST,admin.stage.comiru.com,Comiru
 HOST,staging2.comiru.com,Comiru
 HOST,admin.stage2.comiru.com,Comiru
 HOST,cdn.ckeditor.com,Comiru
+HOST,comiru.atlassian.net,Comiru
+
 HOST-SUFFIX,stage.comiru.com,Comiru
 HOST-SUFFIX,admin.stage.comiru.com,Comiru
 HOST-SUFFIX,staging2.comiru.com,Comiru
 HOST-SUFFIX,admin.stage2.comiru.com,Comiru
+HOST-SUFFIX,cdn.ckeditor.com,Comiru
+HOST-SUFFIX,comiru.atlassian.net,Comiru
