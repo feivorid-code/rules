@@ -31,3 +31,10 @@ HOST-SUFFIX,unpkg.com,Comiru
 HOST,code.jquery.com,Comiru
 HOST-SUFFIX,code.jquery.com,Comiru
 
+
+
+#Figma
+
+HOST,figma.com,Comiru
+HOST-SUFFIX,figma.com,Comiru
+
