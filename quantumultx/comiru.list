@@ -38,3 +38,10 @@ HOST-SUFFIX,code.jquery.com,Comiru
 HOST,figma.com,Comiru
 HOST-SUFFIX,figma.com,Comiru
 
+
+#
+HOST,cdnjs.cloudflare.com,Comiru
+HOST-SUFFIX,cdnjs.cloudflare.com,Comiru
+
+
+
