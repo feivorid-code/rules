@@ -1,13 +1,35 @@
 # https://openai.com/
 # created by feivorid 
 # repo:https://github.com/feivorid-code/rules
-DOMAIN,cdn.auth0.com,😂 AI Platforms
-DOMAIN,o33249.ingest.sentry.io,😂 AI Platforms
-DOMAIN-SUFFIX,ai.com,😂 AI Platforms
-DOMAIN-SUFFIX,challenges.cloudflare.com,😂 AI Platforms
-DOMAIN-SUFFIX,identrust.com,😂 AI Platforms
-DOMAIN-SUFFIX,stripe.com,😂 AI Platforms
-DOMAIN-KEYWORD,openai,😂 AI Platforms
+HOST,browser-intake-datadoghq.com,😂 AI Platforms
+HOST,static.cloudflareinsights.com,😂 AI Platforms
+HOST-SUFFIX,ai.com,😂 AI Platforms
+HOST-SUFFIX,algolia.net,😂 AI Platforms
+HOST-SUFFIX,api.statsig.com,😂 AI Platforms
+HOST-SUFFIX,auth0.com,😂 AI Platforms
+HOST-SUFFIX,cdn.cloudflare.net,😂 AI Platforms
+HOST-SUFFIX,challenges.cloudflare.com,😂 AI Platforms
+HOST-SUFFIX,chatgpt.livekit.cloud,😂 AI Platforms
+HOST-SUFFIX,client-api.arkoselabs.com,😂 AI Platforms
+HOST-SUFFIX,events.statsigapi.net,😂 AI Platforms
+HOST-SUFFIX,featuregates.org,😂 AI Platforms
+HOST-SUFFIX,host.livekit.cloud,😂 AI Platforms
+HOST-SUFFIX,identrust.com,😂 AI Platforms
+HOST-SUFFIX,intercom.io,😂 AI Platforms
+HOST-SUFFIX,intercomcdn.com,😂 AI Platforms
+HOST-SUFFIX,launchdarkly.com,😂 AI Platforms
+HOST-SUFFIX,oaistatic.com,😂 AI Platforms
+HOST-SUFFIX,oaiusercontent.com,😂 AI Platforms
+HOST-SUFFIX,observeit.net,😂 AI Platforms
+HOST-SUFFIX,poe.com,😂 AI Platforms
+HOST-SUFFIX,segment.io,😂 AI Platforms
+HOST-SUFFIX,sentry.io,😂 AI Platforms
+HOST-SUFFIX,stripe.com,😂 AI Platforms
+HOST-SUFFIX,turn.livekit.cloud,😂 AI Platforms
+HOST-KEYWORD,openai,😂 AI Platforms
+IP-CIDR,24.199.123.28/32,😂 AI Platforms
+IP-CIDR,64.23.132.171/32,😂 AI Platforms
+IP-ASN,20473,😂 AI Platforms
 
 # https://claude.ai/
 # created by feivorid
