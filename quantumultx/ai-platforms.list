@@ -1,28 +1,28 @@
 # https://openai.com/
 # created by feivorid 
 # repo:https://github.com/feivorid-code/rules
-DOMAIN,cdn.auth0.com,🤖 AI Platforms
-DOMAIN,o33249.ingest.sentry.io,🤖 AI Platforms
-DOMAIN-SUFFIX,ai.com,🤖 AI Platforms
-DOMAIN-SUFFIX,challenges.cloudflare.com,🤖 AI Platforms
-DOMAIN-SUFFIX,identrust.com,🤖 AI Platforms
-DOMAIN-SUFFIX,stripe.com,🤖 AI Platforms
-DOMAIN-KEYWORD,openai,🤖 AI Platforms
+DOMAIN,cdn.auth0.com,😂 AI Platforms
+DOMAIN,o33249.ingest.sentry.io,😂 AI Platforms
+DOMAIN-SUFFIX,ai.com,😂 AI Platforms
+DOMAIN-SUFFIX,challenges.cloudflare.com,😂 AI Platforms
+DOMAIN-SUFFIX,identrust.com,😂 AI Platforms
+DOMAIN-SUFFIX,stripe.com,😂 AI Platforms
+DOMAIN-KEYWORD,openai,😂 AI Platforms
 
 # https://claude.ai/
 # created by feivorid
 # repo:https://github.com/feivorid-code/rules
-HOST,cdn.usefathom.com,Claude
-HOST-SUFFIX,anthropic.com,Claude
-HOST-SUFFIX,claude.ai,Claude
-DOMAIN-KEYWORD,claude,🤖 AI Platforms
+HOST,cdn.usefathom.com,😂 AI Platforms
+HOST-SUFFIX,anthropic.com,😂 AI Platforms
+HOST-SUFFIX,claude.ai,😂 AI Platforms
+DOMAIN-KEYWORD,claude,😂 AI Platforms
 
 # https://gemini.google.com/
 # created by feivorid
 # repo:https://github.com/feivorid-code/rules
-DOMAIN-SUFFIX,google.com,🤖 AI Platforms
-DOMAIN-SUFFIX,apis.google.com,🤖 AI Platforms
-DOMAIN-SUFFIX,gemini.google.com,🤖 AI Platforms
-DOMAIN-SUFFIX,in.appcenter.ms,🤖 AI Platforms
-DOMAIN-SUFFIX,ogs.google.com,🤖 AI Platforms
-DOMAIN-SUFFIX,www.google.com,🤖 AI Platforms
+DOMAIN-SUFFIX,google.com,😂 AI Platforms
+DOMAIN-SUFFIX,apis.google.com,😂 AI Platforms
+DOMAIN-SUFFIX,gemini.google.com,😂 AI Platforms
+DOMAIN-SUFFIX,in.appcenter.ms,😂 AI Platforms
+DOMAIN-SUFFIX,ogs.google.com,😂 AI Platforms
+DOMAIN-SUFFIX,www.google.com,😂 AI Platforms
