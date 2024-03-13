@@ -16,6 +16,9 @@ HOST-SUFFIX,comiru.atlassian.net,Comiru
 HOST,cdn.ckeditor.com,Comiru
 HOST-SUFFIX,cdn.ckeditor.com,Comiru
 
+#Playwright
+HOST,playwright.azureedge.net,Comiru
+HOST-SUFFIX,playwright.azureedge.net,Comiru
 
 
 #Remote Vuejs
