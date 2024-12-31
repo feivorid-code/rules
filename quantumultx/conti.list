@@ -11,9 +11,9 @@ HOST,admin43890.miracle01.xyz,Conti
 HOST,flickiri.com,Conti
 HOST,miracle01.xyz,Conti
 HOST,treasurenft.xyz,Conti
-HOST,13.251.111.14:24049,Conti
-HOST,54.254.109.239:24049,Conti
-HOST,3.1.107.151:24049,Conti
+HOST,13.251.111.14,Conti
+HOST,54.254.109.239,Conti
+HOST,3.1.107.151,Conti
 
 
 HOST-SUFFIX,43.154.99.30,Conti
@@ -26,6 +26,6 @@ HOST-SUFFIX,admin43890.miracle01.xyz,Conti
 HOST-SUFFIX,flickiri.com,Conti
 HOST-SUFFIX,miracle01.xyz,Conti
 HOST-SUFFIX,treasurenft.xyz,Conti
-HOST-SUFFIX,13.251.111.14:24049,Conti
-HOST-SUFFIX,54.254.109.239:24049,Conti
-HOST-SUFFIX,3.1.107.151:24049,Conti
+HOST-SUFFIX,13.251.111.14,Conti
+HOST-SUFFIX,54.254.109.239,Conti
+HOST-SUFFIX,3.1.107.151,Conti
