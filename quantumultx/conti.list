@@ -1,7 +1,7 @@
 # Conti
 
 
-HOST,43.154.99.30:20927,Conti
+HOST,https://43.154.99.30:20927/,Conti
 HOST,zentao-naotqrifar.sdkkuukk.xyz,Conti
 HOST,g1i2tlab.jjimapp.com,Conti
 HOST,jump-hdjzysdekl.sdkkuukk.xyz,Conti
@@ -15,7 +15,7 @@ HOST,treasurenft.xyz,Conti
 HOST,3.1.107.151:24049,Conti
 
 
-HOST-SUFFIX,43.154.99.30:20927,Conti
+HOST-SUFFIX,https://43.154.99.30:20927/,Conti
 HOST-SUFFIX,zentao-naotqrifar.sdkkuukk.xyz,Conti
 HOST-SUFFIX,g1i2tlab.jjimapp.com,Conti
 HOST-SUFFIX,jump-hdjzysdekl.sdkkuukk.xyz,Conti
