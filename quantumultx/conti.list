@@ -10,6 +10,7 @@ HOST,admin43890.miracle01.xyz,Conti
 HOST,flickiri.com,Conti
 HOST,miracle01.xyz,Conti
 HOST,treasurenft.xyz,Conti
+HOST,ssf-database-1.cbiwcma2iigt.ap-southeast-1.rds.amazonaws.com,Conti
 
 
 HOST-SUFFIX,zentao-naotqrifar.sdkkuukk.xyz,Conti
@@ -21,3 +22,4 @@ HOST-SUFFIX,admin43890.miracle01.xyz,Conti
 HOST-SUFFIX,flickiri.com,Conti
 HOST-SUFFIX,miracle01.xyz,Conti
 HOST-SUFFIX,treasurenft.xyz,Conti
+HOST-SUFFIX,ssf-database-1.cbiwcma2iigt.ap-southeast-1.rds.amazonaws.com,Conti
