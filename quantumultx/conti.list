@@ -14,6 +14,8 @@ HOST,ssf-database-1.cbiwcma2iigt.ap-southeast-1.rds.amazonaws.com,Conti
 HOST,express-link-test-h5.testtwo.top,Conti
 HOST,express-link-admin-4rc5we6a.expresslink.vip,Conti
 HOST,admin-2jezgh38cv.vientiane-nft.vip,Conti
+HOST,admin.chainsure.co,Conti
+
 
 
 HOST-SUFFIX,zentao-naotqrifar.sdkkuukk.xyz,Conti
@@ -29,4 +31,5 @@ HOST-SUFFIX,ssf-database-1.cbiwcma2iigt.ap-southeast-1.rds.amazonaws.com,Conti
 HOST-SUFFIX,express-link-test-h5.testtwo.top,Conti
 HOST-SUFFIX,express-link-admin-4rc5we6a.expresslink.vip,Conti
 HOST-SUFFIX,admin-2jezgh38cv.vientiane-nft.vip,Conti
+HOST-SUFFIX,admin.chainsure.co,Conti
 
