@@ -1,0 +1,17 @@
+# ZOOM
+
+
+HOST,zoom.us,ZOOM
+HOST,zoom.com,ZOOM
+HOST,zoomgov.com,ZOOM
+HOST,zoomcdn.com,ZOOM
+HOST,zpns.zoom.us,ZOOM
+HOST,cloud.zoom.us,ZOOM
+
+
+HOST-SUFFIX,zoom.us,ZOOM
+HOST-SUFFIX,zoom.com,ZOOM
+HOST-SUFFIX,zoomgov.com,ZOOM
+HOST-SUFFIX,zoomcdn.com,ZOOM
+HOST-SUFFIX,zpns.zoom.us,ZOOM
+HOST-SUFFIX,cloud.zoom.us,ZOOM
