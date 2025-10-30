@@ -17,6 +17,9 @@ HOST,admin-2jezgh38cv.vientiane-nft.vip,Conti
 HOST,admin.chainsure.co,Conti
 HOST,admin.datara.cc,Conti
 HOST,admin.tokinft.org,Conti
+HOST,*.movietest101.xyz,Conti
+HOST,admin111222333.twizzy.club,Conti
+
 
 
 
@@ -36,4 +39,5 @@ HOST-SUFFIX,admin-2jezgh38cv.vientiane-nft.vip,Conti
 HOST-SUFFIX,admin.chainsure.co,Conti
 HOST-SUFFIX,admin.datara.cc,Conti
 HOST-SUFFIX,admin.tokinft.org,Conti
-
+HOST-SUFFIX,*.movietest101.xyz,Conti
+HOST-SUFFIX,admin111222333.twizzy.club,Conti
