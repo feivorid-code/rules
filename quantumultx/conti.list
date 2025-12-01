@@ -20,6 +20,7 @@ HOST,admin.tokinft.org,Conti
 HOST,movietest101.xyz,Conti
 HOST,admin111222333.twizzy.club,Conti
 HOST,admin111222333.tradull.net,Conti
+HOST,trabms.trandull.com,Conti
 
 
 
@@ -43,3 +44,4 @@ HOST-SUFFIX,admin.tokinft.org,Conti
 HOST-SUFFIX,movietest101.xyz,Conti
 HOST-SUFFIX,admin111222333.twizzy.club,Conti
 HOST-SUFFIX,admin111222333.tradull.net,Conti
+HOST-SUFFIX,trabms.trandull.com,Conti
