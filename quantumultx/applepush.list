@@ -10,7 +10,9 @@ IP-CIDR,17.57.144.0/22,ApplePush,no-resolve
 IP-CIDR,17.188.128.0/18,ApplePush,no-resolve
 IP-CIDR,17.188.20.0/23,ApplePush,no-resolve
 
-IP6-CIDR,2620:149:a44::/48,ApplePush,no-resolve
-IP6-CIDR,2403:300:a42::/48,ApplePush,no-resolve
-IP6-CIDR,2403:300:a51::/48,ApplePush,no-resolve
-IP6-CIDR,2a01:b740:a42::/48,ApplePush,no-resolve
+# IPv6 APNs ranges are disabled for cellular-network testing.
+# If the selected proxy node supports stable IPv6 egress, these can be re-enabled.
+#IP6-CIDR,2620:149:a44::/48,ApplePush,no-resolve
+#IP6-CIDR,2403:300:a42::/48,ApplePush,no-resolve
+#IP6-CIDR,2403:300:a51::/48,ApplePush,no-resolve
+#IP6-CIDR,2a01:b740:a42::/48,ApplePush,no-resolve
