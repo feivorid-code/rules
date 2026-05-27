@@ -25,7 +25,7 @@ HOST,fsbms9999.fronsure.xyz,Conti
 HOST,admin43662.3mmatrix.net,Conti
 HOST,admin.thesvault.xyz,Conti
 HOST,ui8o.sony-888.com,Conti
-HOST,*.wgetcloud.org,Conti
+HOST,b8cfff2a4jquxdbmwbaj.wgetcloud.org,Conti
 
 
 
@@ -54,4 +54,4 @@ HOST-SUFFIX,fsbms9999.fronsure.xyz,Conti
 HOST-SUFFIX,admin43662.3mmatrix.net,Conti
 HOST-SUFFIX,admin.thesvault.xyz,Conti
 HOST-SUFFIX,ui8o.sony-888.com,Conti
-HOST-SUFFIX,*.wgetcloud.org,Conti
+HOST-SUFFIX,b8cfff2a4jquxdbmwbaj.wgetcloud.org,Conti
