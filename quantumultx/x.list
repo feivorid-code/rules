@@ -1,0 +1,38 @@
+# X
+
+# X web, mobile apps, legacy Twitter domains, and account flows.
+HOST,x.com,X
+HOST,www.x.com,X
+HOST,api.x.com,X
+HOST,ads.x.com,X
+HOST,help.x.com,X
+HOST,business.x.com,X
+HOST,developer.x.com,X
+HOST,pro.x.com,X
+HOST,twitter.com,X
+HOST,www.twitter.com,X
+HOST,mobile.twitter.com,X
+HOST,api.twitter.com,X
+HOST,upload.twitter.com,X
+HOST,abs.twimg.com,X
+HOST,api-verify.twitter.com,X
+HOST,twitteroauth.com,X
+
+# Media, video, cards, embeds, and URL shortener.
+HOST,t.co,X
+HOST,twimg.com,X
+HOST,pbs.twimg.com,X
+HOST,video.twimg.com,X
+HOST,ton.twimg.com,X
+HOST,abs-0.twimg.com,X
+HOST,platform.twitter.com,X
+HOST,syndication.twitter.com,X
+HOST,cdn.syndication.twimg.com,X
+HOST,urls.api.twitter.com,X
+
+# Broad coverage for current and future X/Twitter clients.
+HOST-SUFFIX,x.com,X
+HOST-SUFFIX,twitter.com,X
+HOST-SUFFIX,t.co,X
+HOST-SUFFIX,twimg.com,X
+HOST-SUFFIX,twitteroauth.com,X
