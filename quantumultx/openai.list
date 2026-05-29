@@ -1,0 +1,50 @@
+# OpenAI
+
+# ChatGPT web, mobile apps, desktop apps, and Codex surfaces.
+HOST,chatgpt.com,OpenAI
+HOST,chat.openai.com,OpenAI
+HOST,ios.chat.openai.com,OpenAI
+HOST,android.chat.openai.com,OpenAI
+HOST,desktop.chat.openai.com,OpenAI
+HOST,ws.chatgpt.com,OpenAI
+HOST,tcr9i.chat.openai.com,OpenAI
+HOST,api.openai.com,OpenAI
+HOST,sip.api.openai.com,OpenAI
+
+# Authentication, account setup, and enterprise login.
+HOST,auth0.openai.com,OpenAI
+HOST,setup.auth.openai.com,OpenAI
+HOST,setup.workos.com,OpenAI
+HOST,forwarder.workos.com,OpenAI
+HOST,cdn.workos.com,OpenAI
+HOST,images.workoscdn.com,OpenAI
+HOST,workos.imgix.net,OpenAI
+HOST,challenges.cloudflare.com,OpenAI
+
+# Static assets, uploads, telemetry, support, and payments.
+HOST,cdn.openaimerge.com,OpenAI
+HOST,events.statsigapi.net,OpenAI
+HOST,o207216.ingest.sentry.io,OpenAI
+HOST,o33249.ingest.sentry.io,OpenAI
+HOST,rum.browser-intake-datadoghq.com,OpenAI
+HOST,js.intercomcdn.com,OpenAI
+HOST,js.stripe.com,OpenAI
+HOST,humb.apple.com,OpenAI
+
+# Broad coverage for current and future OpenAI/ChatGPT clients.
+HOST-SUFFIX,chatgpt.com,OpenAI
+HOST-SUFFIX,openai.com,OpenAI
+HOST-SUFFIX,auth.openai.com,OpenAI
+HOST-SUFFIX,oaistatic.com,OpenAI
+HOST-SUFFIX,oaiusercontent.com,OpenAI
+HOST-SUFFIX,openaimerge.com,OpenAI
+HOST-SUFFIX,featuregates.org,OpenAI
+HOST-SUFFIX,featureassets.org,OpenAI
+HOST-SUFFIX,prodregistryv2.org,OpenAI
+HOST-SUFFIX,statsig.com,OpenAI
+HOST-SUFFIX,statsigapi.net,OpenAI
+HOST-SUFFIX,ct.sendgrid.net,OpenAI
+HOST-SUFFIX,intercom.io,OpenAI
+HOST-SUFFIX,intercomcdn.com,OpenAI
+HOST-SUFFIX,workos.com,OpenAI
+HOST-SUFFIX,workoscdn.com,OpenAI
