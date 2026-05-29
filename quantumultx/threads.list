@@ -1,0 +1,27 @@
+# Threads
+
+# Threads web, mobile apps, and Instagram account integration.
+HOST,threads.com,Threads
+HOST,www.threads.com,Threads
+HOST,threads.net,Threads
+HOST,www.threads.net,Threads
+HOST,threads.instagram.com,Threads
+HOST,help.instagram.com,Threads
+HOST,graph.instagram.com,Threads
+HOST,i.instagram.com,Threads
+
+# Media and shared Meta CDN resources used by Threads.
+HOST,cdninstagram.com,Threads
+HOST,scontent.cdninstagram.com,Threads
+HOST,instagram.fna.fbcdn.net,Threads
+HOST,fbcdn.net,Threads
+HOST,scontent.xx.fbcdn.net,Threads
+HOST,fbsbx.com,Threads
+
+# Broad coverage for current and future Threads clients.
+HOST-SUFFIX,threads.com,Threads
+HOST-SUFFIX,threads.net,Threads
+HOST-SUFFIX,instagram.com,Threads
+HOST-SUFFIX,cdninstagram.com,Threads
+HOST-SUFFIX,fbcdn.net,Threads
+HOST-SUFFIX,fbsbx.com,Threads

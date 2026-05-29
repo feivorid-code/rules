@@ -1,0 +1,39 @@
+# Spotify
+
+# Spotify web, desktop, mobile apps, accounts, and APIs.
+HOST,spotify.com,Spotify
+HOST,www.spotify.com,Spotify
+HOST,open.spotify.com,Spotify
+HOST,play.spotify.com,Spotify
+HOST,accounts.spotify.com,Spotify
+HOST,login.spotify.com,Spotify
+HOST,api.spotify.com,Spotify
+HOST,api-partner.spotify.com,Spotify
+HOST,apresolve.spotify.com,Spotify
+HOST,gew1-spclient.spotify.com,Spotify
+HOST,spclient.wg.spotify.com,Spotify
+HOST,clienttoken.spotify.com,Spotify
+HOST,developer.spotify.com,Spotify
+
+# Audio, video podcasts, images, and CDN assets.
+HOST,audio-fa.scdn.co,Spotify
+HOST,audio-ak-spotify-com.akamaized.net,Spotify
+HOST,heads-fa.scdn.co,Spotify
+HOST,i.scdn.co,Spotify
+HOST,lineup-images.scdn.co,Spotify
+HOST,quicksilver.scdn.co,Spotify
+HOST,video-fa.scdn.co,Spotify
+HOST,video-akpcw.spotifycdn.com,Spotify
+HOST,open.spotifycdn.com,Spotify
+HOST,spotifycdn.com,Spotify
+HOST,spotifycdn.net,Spotify
+HOST,scdn.co,Spotify
+HOST,pscdn.co,Spotify
+
+# Broad coverage for current and future Spotify clients.
+HOST-SUFFIX,spotify.com,Spotify
+HOST-SUFFIX,spotifycdn.com,Spotify
+HOST-SUFFIX,spotifycdn.net,Spotify
+HOST-SUFFIX,scdn.co,Spotify
+HOST-SUFFIX,pscdn.co,Spotify
+HOST-SUFFIX,spoti.fi,Spotify

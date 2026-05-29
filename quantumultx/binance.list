@@ -1,0 +1,43 @@
+# Binance
+
+# Binance web, mobile apps, regional sites, and APIs.
+HOST,binance.com,Binance
+HOST,www.binance.com,Binance
+HOST,accounts.binance.com,Binance
+HOST,api.binance.com,Binance
+HOST,api1.binance.com,Binance
+HOST,api2.binance.com,Binance
+HOST,api3.binance.com,Binance
+HOST,api4.binance.com,Binance
+HOST,stream.binance.com,Binance
+HOST,fapi.binance.com,Binance
+HOST,dapi.binance.com,Binance
+HOST,papi.binance.com,Binance
+HOST,binance.us,Binance
+HOST,www.binance.us,Binance
+HOST,api.binance.us,Binance
+HOST,binance.me,Binance
+HOST,binance.info,Binance
+
+# Static assets, wallet, chain, and CDN resources.
+HOST,bnbstatic.com,Binance
+HOST,public.bnbstatic.com,Binance
+HOST,bin.bnbstatic.com,Binance
+HOST,public.nftstatic.com,Binance
+HOST,binance.cloud,Binance
+HOST,binancecnt.com,Binance
+HOST,bnbchain.org,Binance
+HOST,www.bnbchain.org,Binance
+HOST,bscscan.com,Binance
+
+# Broad coverage for current and future Binance clients.
+HOST-SUFFIX,binance.com,Binance
+HOST-SUFFIX,binance.us,Binance
+HOST-SUFFIX,binance.me,Binance
+HOST-SUFFIX,binance.info,Binance
+HOST-SUFFIX,bnbstatic.com,Binance
+HOST-SUFFIX,nftstatic.com,Binance
+HOST-SUFFIX,binance.cloud,Binance
+HOST-SUFFIX,binancecnt.com,Binance
+HOST-SUFFIX,bnbchain.org,Binance
+HOST-SUFFIX,bscscan.com,Binance

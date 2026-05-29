@@ -1,0 +1,58 @@
+# GitHub
+
+# GitHub web, git, API, docs, Gist, Codespaces, and status.
+HOST,github.com,GitHub
+HOST,www.github.com,GitHub
+HOST,api.github.com,GitHub
+HOST,uploads.github.com,GitHub
+HOST,alive.github.com,GitHub
+HOST,collector.github.com,GitHub
+HOST,gist.github.com,GitHub
+HOST,docs.github.com,GitHub
+HOST,github.blog,GitHub
+HOST,github.dev,GitHub
+HOST,githubstatus.com,GitHub
+HOST,www.githubstatus.com,GitHub
+HOST,git-scm.com,GitHub
+HOST,www.git-scm.com,GitHub
+
+# Raw files, releases, avatars, assets, Pages, Packages, and Actions.
+HOST,raw.githubusercontent.com,GitHub
+HOST,objects.githubusercontent.com,GitHub
+HOST,objects-origin.githubusercontent.com,GitHub
+HOST,user-images.githubusercontent.com,GitHub
+HOST,private-user-images.githubusercontent.com,GitHub
+HOST,secured-user-images.githubusercontent.com,GitHub
+HOST,media.githubusercontent.com,GitHub
+HOST,camo.githubusercontent.com,GitHub
+HOST,avatars.githubusercontent.com,GitHub
+HOST,private-avatars.githubusercontent.com,GitHub
+HOST,github.githubassets.com,GitHub
+HOST,opengraph.githubassets.com,GitHub
+HOST,github.io,GitHub
+HOST,githubusercontent.com,GitHub
+HOST,githubassets.com,GitHub
+HOST,ghcr.io,GitHub
+HOST,pkg.github.com,GitHub
+HOST,actions.githubusercontent.com,GitHub
+
+# GitHub Copilot and coding-agent endpoints.
+HOST,api.githubcopilot.com,GitHub
+HOST,copilot-proxy.githubusercontent.com,GitHub
+HOST,proxy.individual.githubcopilot.com,GitHub
+HOST,proxy.business.githubcopilot.com,GitHub
+HOST,proxy.enterprise.githubcopilot.com,GitHub
+
+# Broad coverage for current and future GitHub clients.
+HOST-SUFFIX,github.com,GitHub
+HOST-SUFFIX,githubusercontent.com,GitHub
+HOST-SUFFIX,actions.githubusercontent.com,GitHub
+HOST-SUFFIX,githubassets.com,GitHub
+HOST-SUFFIX,github.io,GitHub
+HOST-SUFFIX,github.dev,GitHub
+HOST-SUFFIX,github.blog,GitHub
+HOST-SUFFIX,githubstatus.com,GitHub
+HOST-SUFFIX,githubcopilot.com,GitHub
+HOST-SUFFIX,ghcr.io,GitHub
+HOST-SUFFIX,pkg.github.com,GitHub
+HOST-SUFFIX,git-scm.com,GitHub

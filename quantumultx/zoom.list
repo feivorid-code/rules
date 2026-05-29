@@ -1,17 +1,42 @@
-# ZOOM
+# Zoom
 
+# Zoom web, desktop, mobile apps, meetings, webinars, and phone.
+HOST,zoom.us,Zoom
+HOST,www.zoom.us,Zoom
+HOST,us02web.zoom.us,Zoom
+HOST,us04web.zoom.us,Zoom
+HOST,zoom.com,Zoom
+HOST,www.zoom.com,Zoom
+HOST,zoomgov.com,Zoom
+HOST,www.zoomgov.com,Zoom
+HOST,zoomcdn.com,Zoom
+HOST,zoomcloudmeetings.com,Zoom
+HOST,zoomus.cn,Zoom
+HOST,zoom.com.cn,Zoom
+HOST,zoom.us.cn,Zoom
+HOST,zoomdev.us,Zoom
+HOST,zoomstatus.com,Zoom
 
-HOST,zoom.us,ZOOM
-HOST,zoom.com,ZOOM
-HOST,zoomgov.com,ZOOM
-HOST,zoomcdn.com,ZOOM
-HOST,zpns.zoom.us,ZOOM
-HOST,cloud.zoom.us,ZOOM
+# Push, device management, phone, support, and community.
+HOST,zpns.zoom.us,Zoom
+HOST,cloud.zoom.us,Zoom
+HOST,phone.zoom.us,Zoom
+HOST,events.zoom.us,Zoom
+HOST,marketplace.zoom.us,Zoom
+HOST,support.zoom.com,Zoom
+HOST,community.zoom.com,Zoom
+HOST,st1.zoom.us,Zoom
+HOST,st2.zoom.us,Zoom
+HOST,st3.zoom.us,Zoom
 
-
-HOST-SUFFIX,zoom.us,ZOOM
-HOST-SUFFIX,zoom.com,ZOOM
-HOST-SUFFIX,zoomgov.com,ZOOM
-HOST-SUFFIX,zoomcdn.com,ZOOM
-HOST-SUFFIX,zpns.zoom.us,ZOOM
-HOST-SUFFIX,cloud.zoom.us,ZOOM
+# Broad coverage for current and future Zoom clients.
+HOST-SUFFIX,zoom.us,Zoom
+HOST-SUFFIX,zoom.com,Zoom
+HOST-SUFFIX,zoomgov.com,Zoom
+HOST-SUFFIX,zoomcdn.com,Zoom
+HOST-SUFFIX,zoomcloudmeetings.com,Zoom
+HOST-SUFFIX,zoomus.cn,Zoom
+HOST-SUFFIX,zoom.com.cn,Zoom
+HOST-SUFFIX,zoom.us.cn,Zoom
+HOST-SUFFIX,zoomdev.us,Zoom
+HOST-SUFFIX,zoomstatus.com,Zoom

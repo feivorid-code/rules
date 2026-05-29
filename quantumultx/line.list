@@ -1,0 +1,38 @@
+# Line
+
+# Line web, mobile apps, login, messaging, and official links.
+HOST,line.me,Line
+HOST,access.line.me,Line
+HOST,account.line.biz,Line
+HOST,manager.line.biz,Line
+HOST,developers.line.biz,Line
+HOST,api.line.me,Line
+HOST,notify-api.line.me,Line
+HOST,notify-bot.line.me,Line
+HOST,lin.ee,Line
+HOST,line.naver.jp,Line
+HOST,obs.line-apps.com,Line
+HOST,legy-jp.line.naver.jp,Line
+HOST,gw.line.naver.jp,Line
+
+# Media, stickers, CDN, calls, and app resources.
+HOST,dl.stickershop.line.naver.jp,Line
+HOST,dl.profile.line.naver.jp,Line
+HOST,dl.shop.line.naver.jp,Line
+HOST,dl.line-cdn.net,Line
+HOST,line-scdn.net,Line
+HOST,scdn.line-apps.com,Line
+HOST,vos.line-scdn.net,Line
+HOST,profile.line-scdn.net,Line
+HOST,line-apps.com,Line
+HOST,linecorp.com,Line
+
+# Broad coverage for current and future Line clients.
+HOST-SUFFIX,line.me,Line
+HOST-SUFFIX,lin.ee,Line
+HOST-SUFFIX,line.naver.jp,Line
+HOST-SUFFIX,line-scdn.net,Line
+HOST-SUFFIX,line-cdn.net,Line
+HOST-SUFFIX,line-apps.com,Line
+HOST-SUFFIX,linecorp.com,Line
+HOST-SUFFIX,line.biz,Line

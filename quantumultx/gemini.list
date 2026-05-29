@@ -1,0 +1,38 @@
+# Gemini
+
+# Google Gemini web, mobile app, AI Studio, and APIs.
+HOST,gemini.google.com,Gemini
+HOST,bard.google.com,Gemini
+HOST,aistudio.google.com,Gemini
+HOST,ai.google.dev,Gemini
+HOST,generativelanguage.googleapis.com,Gemini
+HOST,alkalimakersuite-pa.clients6.google.com,Gemini
+HOST,assistant.google.com,Gemini
+
+# Gemini crypto exchange web, mobile apps, and APIs.
+HOST,gemini.com,Gemini
+HOST,www.gemini.com,Gemini
+HOST,exchange.gemini.com,Gemini
+HOST,api.gemini.com,Gemini
+HOST,api.sandbox.gemini.com,Gemini
+HOST,exchange.sandbox.gemini.com,Gemini
+HOST,institutional.gemini.com,Gemini
+HOST,support.gemini.com,Gemini
+HOST,developer.gemini.com,Gemini
+HOST,status.gemini.com,Gemini
+HOST,assets.gemini.com,Gemini
+HOST,static.gemini.com,Gemini
+
+# Gemini products and related surfaces.
+HOST,cryptopedia.gemini.com,Gemini
+HOST,frontier-fund.gemini.com,Gemini
+HOST,gemini-dollar.com,Gemini
+HOST,www.gemini-dollar.com,Gemini
+
+# Broad coverage for current and future Gemini clients.
+HOST-SUFFIX,gemini.google.com,Gemini
+HOST-SUFFIX,aistudio.google.com,Gemini
+HOST-SUFFIX,ai.google.dev,Gemini
+HOST-SUFFIX,generativelanguage.googleapis.com,Gemini
+HOST-SUFFIX,gemini.com,Gemini
+HOST-SUFFIX,gemini-dollar.com,Gemini

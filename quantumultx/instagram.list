@@ -1,0 +1,30 @@
+# Instagram
+
+# Instagram web, mobile apps, login, APIs, and messaging.
+HOST,instagram.com,Instagram
+HOST,www.instagram.com,Instagram
+HOST,m.instagram.com,Instagram
+HOST,i.instagram.com,Instagram
+HOST,api.instagram.com,Instagram
+HOST,graph.instagram.com,Instagram
+HOST,b.i.instagram.com,Instagram
+HOST,help.instagram.com,Instagram
+HOST,about.instagram.com,Instagram
+HOST,business.instagram.com,Instagram
+HOST,creators.instagram.com,Instagram
+HOST,privacycenter.instagram.com,Instagram
+
+# Media, reels, profile images, and Meta CDN resources.
+HOST,cdninstagram.com,Instagram
+HOST,scontent.cdninstagram.com,Instagram
+HOST,instagram.fna.fbcdn.net,Instagram
+HOST,fbcdn.net,Instagram
+HOST,scontent.xx.fbcdn.net,Instagram
+HOST,fbsbx.com,Instagram
+HOST,lookaside.instagram.com,Instagram
+
+# Broad coverage for current and future Instagram clients.
+HOST-SUFFIX,instagram.com,Instagram
+HOST-SUFFIX,cdninstagram.com,Instagram
+HOST-SUFFIX,fbcdn.net,Instagram
+HOST-SUFFIX,fbsbx.com,Instagram
