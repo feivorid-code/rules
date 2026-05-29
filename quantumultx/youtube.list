@@ -1,0 +1,54 @@
+# YouTube
+
+# YouTube web, mobile web, apps, Music, Kids, Studio, and TV.
+HOST,youtube.com,YouTube
+HOST,www.youtube.com,YouTube
+HOST,m.youtube.com,YouTube
+HOST,kids.youtube.com,YouTube
+HOST,music.youtube.com,YouTube
+HOST,studio.youtube.com,YouTube
+HOST,tv.youtube.com,YouTube
+HOST,accounts.youtube.com,YouTube
+HOST,consent.youtube.com,YouTube
+HOST,gaming.youtube.com,YouTube
+HOST,upload.youtube.com,YouTube
+HOST,youtu.be,YouTube
+HOST,yt.be,YouTube
+HOST,youtube-nocookie.com,YouTube
+HOST,www.youtube-nocookie.com,YouTube
+HOST,youtubeeducation.com,YouTube
+
+# YouTube app, embedded player, and internal API calls.
+HOST,youtubei.googleapis.com,YouTube
+HOST,youtube.googleapis.com,YouTube
+HOST,youtubeembeddedplayer.googleapis.com,YouTube
+HOST,www.googleapis.com,YouTube
+HOST,youtube-ui.l.google.com,YouTube
+HOST,youtube.l.google.com,YouTube
+
+# Video streaming, thumbnails, static assets, and profile images.
+HOST,googlevideo.com,YouTube
+HOST,ytimg.com,YouTube
+HOST,i.ytimg.com,YouTube
+HOST,i1.ytimg.com,YouTube
+HOST,i2.ytimg.com,YouTube
+HOST,i3.ytimg.com,YouTube
+HOST,i4.ytimg.com,YouTube
+HOST,s.ytimg.com,YouTube
+HOST,ytimg.l.google.com,YouTube
+HOST,ggpht.com,YouTube
+HOST,yt3.ggpht.com,YouTube
+HOST,lh3.googleusercontent.com,YouTube
+
+# Broad coverage for current and future YouTube clients.
+HOST-SUFFIX,youtube.com,YouTube
+HOST-SUFFIX,youtu.be,YouTube
+HOST-SUFFIX,yt.be,YouTube
+HOST-SUFFIX,youtube-nocookie.com,YouTube
+HOST-SUFFIX,youtubeeducation.com,YouTube
+HOST-SUFFIX,googlevideo.com,YouTube
+HOST-SUFFIX,ytimg.com,YouTube
+HOST-SUFFIX,ggpht.com,YouTube
+HOST-SUFFIX,youtubei.googleapis.com,YouTube
+HOST-SUFFIX,youtube.googleapis.com,YouTube
+HOST-SUFFIX,youtubeembeddedplayer.googleapis.com,YouTube
