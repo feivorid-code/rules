@@ -1,0 +1,3327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantumult X Proxy Diagnostic</title>
+<style>
+:root {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --surface2: #334155;
+  --border: #475569;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --accent: #38bdf8;
+  --green: #22c55e;
+  --green-bg: #166534;
+  --yellow: #eab308;
+  --yellow-bg: #854d0e;
+  --red: #ef4444;
+  --red-bg: #991b1b;
+  --blue: #3b82f6;
+  --indigo: #818cf8;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace;
+  min-height: 100vh; line-height: 1.5;
+}
+header {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 16px 24px; text-align: center;
+}
+header h1 { font-size: 1.5rem; color: var(--accent); margin-bottom: 4px; }
+header p { color: var(--text2); font-size: 0.85rem; }
+
+#warning-banner {
+  display: none; background: #78350f; color: #fbbf24; text-align: center;
+  padding: 8px 16px; font-size: 0.8rem; border-bottom: 1px solid #92400e;
+}
+#warning-banner.show { display: block; }
+
+main { max-width: 1200px; margin: 0 auto; padding: 16px 24px; }
+
+/* Global Controls */
+#global-controls {
+  display: flex; gap: 12px; align-items: center; margin-bottom: 16px; flex-wrap: wrap;
+}
+#global-controls button {
+  padding: 10px 20px; border: 1px solid var(--border); border-radius: 8px;
+  cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.15s;
+  background: var(--surface); color: var(--text);
+}
+#global-controls button:hover { background: var(--surface2); }
+#global-controls button:disabled { opacity: 0.4; cursor: not-allowed; }
+#btn-test-all { background: var(--accent); color: #0f172a; border-color: var(--accent); }
+#btn-test-all:hover { opacity: 0.85; }
+#btn-stop { background: var(--red); color: white; border-color: var(--red); display: none; }
+#btn-stop.show { display: inline-block; }
+#btn-export { margin-left: auto; }
+#concurrency-label { color: var(--text2); font-size: 0.8rem; margin-left: 8px; }
+#concurrency-input { width: 50px; background: var(--surface); border: 1px solid var(--border); color: var(--text); border-radius: 4px; padding: 4px 8px; text-align: center; }
+#global-progress { flex-basis: 100%; height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden; display: none; }
+#global-progress.show { display: block; }
+#global-progress-bar { height: 100%; background: var(--accent); width: 0%; transition: width 0.2s; }
+
+/* Summary Dashboard */
+#summary-dashboard {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-bottom: 16px;
+}
+.summary-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 12px 14px; cursor: pointer; transition: all 0.15s;
+}
+.summary-card:hover { border-color: var(--accent); transform: translateY(-1px); }
+.summary-card.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.summary-card .sc-icon { font-size: 1.3rem; margin-right: 8px; }
+.summary-card .sc-name { font-weight: 700; font-size: 0.9rem; }
+.summary-card .sc-status { font-size: 0.75rem; margin-top: 4px; }
+.summary-card .sc-bar-bg { height: 4px; background: var(--surface2); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+.summary-card .sc-bar-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
+
+/* Service Tabs */
+#service-tabs {
+  display: flex; gap: 6px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+#service-tabs button {
+  flex-shrink: 0; padding: 8px 16px; border: 1px solid var(--border); border-radius: 20px;
+  cursor: pointer; font-size: 0.82rem; font-weight: 600; transition: all 0.15s;
+  background: var(--surface); color: var(--text2); white-space: nowrap;
+}
+#service-tabs button:hover { background: var(--surface2); color: var(--text); }
+#service-tabs button.active { background: var(--accent); color: #0f172a; border-color: var(--accent); }
+
+/* Service Panel */
+#service-header {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px 20px; margin-bottom: 12px; display: flex; flex-wrap: wrap;
+  align-items: center; gap: 16px;
+}
+#service-header h2 { font-size: 1.2rem; }
+#service-header .sh-desc { color: var(--text2); font-size: 0.82rem; flex-basis: 100%; }
+#service-stats { display: flex; gap: 16px; font-size: 0.82rem; }
+#service-stats span { display: flex; align-items: center; gap: 4px; }
+.stat-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+#service-actions { display: flex; gap: 8px; margin-left: auto; }
+#service-actions button {
+  padding: 8px 16px; border: 1px solid var(--border); border-radius: 6px;
+  cursor: pointer; font-size: 0.82rem; font-weight: 600;
+  background: var(--surface); color: var(--text); transition: all 0.15s;
+}
+#service-actions button:hover { background: var(--surface2); }
+#service-actions button:disabled { opacity: 0.4; cursor: not-allowed; }
+#btn-test-selected { background: var(--accent); color: #0f172a; border-color: var(--accent); }
+
+/* Results Table */
+#results-table-container {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden;
+}
+#results-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+#results-table thead { position: sticky; top: 0; z-index: 1; }
+#results-table th {
+  background: var(--surface2); color: var(--text2); font-weight: 600;
+  padding: 10px 12px; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;
+}
+#results-table td { padding: 8px 12px; border-top: 1px solid var(--border); vertical-align: middle; }
+#results-table tbody tr { transition: background 0.15s; }
+#results-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+#results-table tbody tr.testing { background: rgba(59,130,246,0.08); }
+#results-table tbody tr.reachable { background: rgba(34,197,94,0.06); }
+#results-table tbody tr.unreachable { background: rgba(239,68,68,0.06); }
+#results-table tbody tr.skipped { opacity: 0.5; }
+
+.status-badge {
+  display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 12px;
+  font-size: 0.75rem; font-weight: 600;
+}
+.status-badge.untested { background: var(--surface2); color: var(--text2); }
+.status-badge.testing { background: rgba(59,130,246,0.2); color: var(--blue); }
+.status-badge.reachable { background: rgba(34,197,94,0.2); color: var(--green); }
+.status-badge.slow { background: rgba(234,179,8,0.2); color: var(--yellow); }
+.status-badge.unreachable { background: rgba(239,68,68,0.2); color: var(--red); }
+.status-badge.skipped { background: var(--surface2); color: var(--text2); }
+
+.latency { font-variant-numeric: tabular-nums; font-weight: 600; }
+.latency.fast { color: var(--green); }
+.latency.medium { color: var(--yellow); }
+.latency.slow { color: var(--red); }
+
+.ip-list { font-size: 0.75rem; color: var(--text2); max-width: 250px; word-break: break-all; }
+.ip-list span { display: inline-block; background: var(--surface2); padding: 1px 6px; border-radius: 3px; margin: 1px 2px; }
+
+.rule-type-tag {
+  display: inline-block; padding: 1px 8px; border-radius: 4px; font-size: 0.7rem;
+  font-weight: 600; letter-spacing: 0.3px;
+}
+.rule-type-tag.host { background: rgba(56,189,248,0.15); color: var(--accent); }
+.rule-type-tag.host-suffix { background: rgba(129,140,248,0.15); color: var(--indigo); }
+.rule-type-tag.host-keyword { background: rgba(251,191,36,0.15); color: var(--yellow); }
+.rule-type-tag.ip-cidr { background: rgba(168,85,247,0.15); color: #a855f7; }
+
+.spinner {
+  display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border);
+  border-top-color: var(--accent); border-radius: 50%; animation: spin 0.6s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+footer {
+  text-align: center; padding: 20px; color: var(--text2); font-size: 0.75rem;
+  border-top: 1px solid var(--border); margin-top: 24px;
+}
+
+@media (max-width: 768px) {
+  main { padding: 12px; }
+  #service-tabs { gap: 4px; }
+  #service-tabs button { padding: 6px 12px; font-size: 0.75rem; }
+  #results-table { font-size: 0.7rem; }
+  #results-table th, #results-table td { padding: 6px 8px; }
+  #service-header { flex-direction: column; align-items: flex-start; }
+  #service-actions { margin-left: 0; }
+  #summary-dashboard { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>🔍 Quantumult X Proxy Diagnostic</h1>
+  <p>Test service connectivity through your current proxy configuration</p>
+</header>
+<div id="warning-banner">
+  ⚠️ Detected <code>file://</code> protocol. DNS resolution may be restricted. Run <code>python3 -m http.server 8000</code> in this directory and visit <code>http://localhost:8000/diagnostic.html</code> for best results.
+</div>
+
+<main>
+  <section id="global-controls">
+    <button id="btn-test-all">🚀 Test All Services</button>
+    <button id="btn-stop">⏹ Stop</button>
+    <button id="btn-clear-all">🗑 Clear All</button>
+    <button id="btn-export">📥 Export CSV</button>
+    <label id="concurrency-label">Concurrency: <input id="concurrency-input" type="number" value="6" min="1" max="20"></label>
+    <div id="global-progress"><div id="global-progress-bar"></div></div>
+  </section>
+
+  <section id="summary-dashboard"></section>
+
+  <nav id="service-tabs"></nav>
+
+  <section id="active-service-panel">
+    <div id="service-header">
+      <h2 id="service-name">Select a service</h2>
+      <p id="service-description" class="sh-desc"></p>
+      <div id="service-stats">
+        <span><span class="stat-dot" style="background:var(--text2)"></span> Total: <b id="stat-total">-</b></span>
+        <span><span class="stat-dot" style="background:var(--green)"></span> Reachable: <b id="stat-reachable">-</b></span>
+        <span><span class="stat-dot" style="background:var(--red)"></span> Unreachable: <b id="stat-unreachable">-</b></span>
+        <span><span class="stat-dot" style="background:var(--yellow)"></span> Avg Latency: <b id="stat-avg-latency">-</b></span>
+      </div>
+      <div id="service-actions">
+        <button id="btn-test-selected">▶ Test This Service</button>
+        <button id="btn-clear-selected">🗑 Clear Results</button>
+      </div>
+    </div>
+    <div id="results-table-container">
+      <table id="results-table">
+        <thead>
+          <tr>
+            <th style="width:40px">#</th>
+            <th>Domain</th>
+            <th style="width:120px">Rule Type</th>
+            <th style="width:130px">Status</th>
+            <th style="width:90px">Latency</th>
+            <th>Resolved IPs</th>
+          </tr>
+        </thead>
+        <tbody id="results-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Requests route through your active Quantumult X proxy. DNS via Cloudflare/Google DoH.</p>
+</footer>
+
+<script>
+const SERVICES = {
+  "ApplePush": {
+    color: "#555555",
+    icon: "🍎",
+    description: "Apple Push Notification Service (APNs)",
+    rules: [
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "push.apple.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "akadns.net"
+                },
+                {
+                        "type": "HOST-KEYWORD",
+                        "value": "apple.com.edgekey.net"
+                },
+                {
+                        "type": "IP-CIDR",
+                        "value": "17.249.0.0/16"
+                },
+                {
+                        "type": "IP-CIDR",
+                        "value": "17.252.0.0/16"
+                },
+                {
+                        "type": "IP-CIDR",
+                        "value": "17.57.144.0/22"
+                },
+                {
+                        "type": "IP-CIDR",
+                        "value": "17.188.128.0/18"
+                },
+                {
+                        "type": "IP-CIDR",
+                        "value": "17.188.20.0/23"
+                }
+        ]
+  },
+  "Binance": {
+    color: "#f0b90b",
+    icon: "₿",
+    description: "Binance Exchange & BNB Chain",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "binance.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.binance.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "accounts.binance.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api.binance.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api1.binance.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api2.binance.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api3.binance.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api4.binance.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "stream.binance.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "fapi.binance.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "dapi.binance.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "papi.binance.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "binance.us"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.binance.us"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api.binance.us"
+                },
+                {
+                        "type": "HOST",
+                        "value": "binance.me"
+                },
+                {
+                        "type": "HOST",
+                        "value": "binance.info"
+                },
+                {
+                        "type": "HOST",
+                        "value": "bnbstatic.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "public.bnbstatic.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "bin.bnbstatic.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "public.nftstatic.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "binance.cloud"
+                },
+                {
+                        "type": "HOST",
+                        "value": "binancecnt.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "bnbchain.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.bnbchain.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "bscscan.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "binance.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "binance.us"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "binance.me"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "binance.info"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "bnbstatic.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "nftstatic.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "binance.cloud"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "binancecnt.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "bnbchain.org"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "bscscan.com"
+                }
+        ]
+  },
+  "Claude": {
+    color: "#d97706",
+    icon: "🧠",
+    description: "Anthropic Claude, API, and Claude Code",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "api.anthropic.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "claude.ai"
+                },
+                {
+                        "type": "HOST",
+                        "value": "platform.claude.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "downloads.claude.ai"
+                },
+                {
+                        "type": "HOST",
+                        "value": "storage.googleapis.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "apps.apple.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "play.google.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "bridge.claudeusercontent.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "raw.githubusercontent.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "anthropic.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "claude.ai"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "claude.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "claudeusercontent.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "storage.googleapis.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "apps.apple.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "play.google.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "raw.githubusercontent.com"
+                }
+        ]
+  },
+  "Comiru": {
+    color: "#6366f1",
+    icon: "💼",
+    description: "Comiru internal tools & services",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "stage.comiru.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "admin.stage.comiru.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "adminplus.stage.comiru.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "staging2.comiru.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "admin.stage2.comiru.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "admin.stage2.comiru.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "comiru.atlassian.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "atlassian.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "jira-frontend-bifrost.prod-east.frontend.public.atl-paas.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "qa.comiru.net"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "stage.comiru.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "admin.stage.comiru.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "adminplus.stage.comiru.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "staging2.comiru.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "admin.stage2.comiru.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "adminplus.stage2.comiru.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "comiru.atlassian.net"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "atlassian.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "jira-frontend-bifrost.prod-east.frontend.public.atl-paas.net"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "qa.comiru.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "cdn.ckeditor.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "cdn.ckeditor.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "playwright.azureedge.net"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "playwright.azureedge.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "unpkg.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "unpkg.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "code.jquery.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "code.jquery.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "figma.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "figma.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "cdnjs.cloudflare.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "cdnjs.cloudflare.com"
+                }
+        ]
+  },
+  "Conti": {
+    color: "#8b5cf6",
+    icon: "🔧",
+    description: "Conti admin panels & services",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "zentao-naotqrifar.sdkkuukk.xyz"
+                },
+                {
+                        "type": "HOST",
+                        "value": "g1i2tlab.jjimapp.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "jump-hdjzysdekl.sdkkuukk.xyz"
+                },
+                {
+                        "type": "HOST",
+                        "value": "admin19123.ltpp.io"
+                },
+                {
+                        "type": "HOST",
+                        "value": "admin85764.flickiri.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "admin43890.miracle01.xyz"
+                },
+                {
+                        "type": "HOST",
+                        "value": "flickiri.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "miracle01.xyz"
+                },
+                {
+                        "type": "HOST",
+                        "value": "treasurenft.xyz"
+                },
+                {
+                        "type": "HOST",
+                        "value": "ssf-database-1.cbiwcma2iigt.ap-southeast-1.rds.amazonaws.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "express-link-test-h5.testtwo.top"
+                },
+                {
+                        "type": "HOST",
+                        "value": "express-link-admin-4rc5we6a.expresslink.vip"
+                },
+                {
+                        "type": "HOST",
+                        "value": "admin-2jezgh38cv.vientiane-nft.vip"
+                },
+                {
+                        "type": "HOST",
+                        "value": "admin.chainsure.co"
+                },
+                {
+                        "type": "HOST",
+                        "value": "admin.datara.cc"
+                },
+                {
+                        "type": "HOST",
+                        "value": "admin.tokinft.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "movietest101.xyz"
+                },
+                {
+                        "type": "HOST",
+                        "value": "admin111222333.twizzy.club"
+                },
+                {
+                        "type": "HOST",
+                        "value": "admin111222333.tradull.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "trabms.trandull.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "fsbms9999.fronsure.xyz"
+                },
+                {
+                        "type": "HOST",
+                        "value": "admin43662.3mmatrix.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "admin.thesvault.xyz"
+                },
+                {
+                        "type": "HOST",
+                        "value": "ui8o.sony-888.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "yuemu.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "b8cfff2a4jquxdbmwbaj.wgetcloud.org"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "zentao-naotqrifar.sdkkuukk.xyz"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "g1i2tlab.jjimapp.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "jump-hdjzysdekl.sdkkuukk.xyz"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "admin19123.ltpp.io"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "admin85764.flickiri.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "admin43890.miracle01.xyz"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "flickiri.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "miracle01.xyz"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "treasurenft.xyz"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "ssf-database-1.cbiwcma2iigt.ap-southeast-1.rds.amazonaws.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "express-link-test-h5.testtwo.top"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "express-link-admin-4rc5we6a.expresslink.vip"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "admin-2jezgh38cv.vientiane-nft.vip"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "admin.chainsure.co"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "admin.datara.cc"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "admin.tokinft.org"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "movietest101.xyz"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "admin111222333.twizzy.club"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "admin111222333.tradull.net"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "trabms.trandull.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "fsbms9999.fronsure.xyz"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "admin43662.3mmatrix.net"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "admin.thesvault.xyz"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "ui8o.sony-888.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "yuemu.org"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "b8cfff2a4jquxdbmwbaj.wgetcloud.org"
+                }
+        ]
+  },
+  "Gemini": {
+    color: "#4285f4",
+    icon: "♊",
+    description: "Google Gemini AI & Gemini Exchange",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "gemini.google.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "bard.google.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "aistudio.google.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "ai.google.dev"
+                },
+                {
+                        "type": "HOST",
+                        "value": "generativelanguage.googleapis.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "alkalimakersuite-pa.clients6.google.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "assistant.google.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "gemini.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.gemini.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "exchange.gemini.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api.gemini.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api.sandbox.gemini.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "exchange.sandbox.gemini.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "institutional.gemini.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "support.gemini.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "developer.gemini.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "status.gemini.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "assets.gemini.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "static.gemini.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "cryptopedia.gemini.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "frontier-fund.gemini.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "gemini-dollar.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.gemini-dollar.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "gemini.google.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "aistudio.google.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "ai.google.dev"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "generativelanguage.googleapis.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "gemini.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "gemini-dollar.com"
+                }
+        ]
+  },
+  "GitHub": {
+    color: "#6e5494",
+    icon: "🐙",
+    description: "GitHub, Gist, Copilot, and Packages",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "github.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.github.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api.github.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "uploads.github.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "alive.github.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "collector.github.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "gist.github.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "docs.github.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "github.blog"
+                },
+                {
+                        "type": "HOST",
+                        "value": "github.dev"
+                },
+                {
+                        "type": "HOST",
+                        "value": "githubstatus.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.githubstatus.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "git-scm.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.git-scm.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "raw.githubusercontent.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "objects.githubusercontent.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "objects-origin.githubusercontent.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "user-images.githubusercontent.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "private-user-images.githubusercontent.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "secured-user-images.githubusercontent.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "media.githubusercontent.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "camo.githubusercontent.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "avatars.githubusercontent.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "private-avatars.githubusercontent.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "github.githubassets.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "opengraph.githubassets.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "github.io"
+                },
+                {
+                        "type": "HOST",
+                        "value": "githubusercontent.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "githubassets.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "ghcr.io"
+                },
+                {
+                        "type": "HOST",
+                        "value": "pkg.github.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "actions.githubusercontent.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api.githubcopilot.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "copilot-proxy.githubusercontent.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "proxy.individual.githubcopilot.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "proxy.business.githubcopilot.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "proxy.enterprise.githubcopilot.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "github.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "githubusercontent.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "actions.githubusercontent.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "githubassets.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "github.io"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "github.dev"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "github.blog"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "githubstatus.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "githubcopilot.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "ghcr.io"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "pkg.github.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "git-scm.com"
+                }
+        ]
+  },
+  "Homebrew": {
+    color: "#fbb040",
+    icon: "🍺",
+    description: "Homebrew package manager",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "formulae.brew.sh"
+                },
+                {
+                        "type": "HOST",
+                        "value": "brew.sh"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "formulae.brew.sh"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "brew.sh"
+                }
+        ]
+  },
+  "Instagram": {
+    color: "#e4405f",
+    icon: "📷",
+    description: "Instagram social media",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "instagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.instagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "m.instagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "i.instagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api.instagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "graph.instagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "b.i.instagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "help.instagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "about.instagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "business.instagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "creators.instagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "privacycenter.instagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "cdninstagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "scontent.cdninstagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "instagram.fna.fbcdn.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "fbcdn.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "scontent.xx.fbcdn.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "fbsbx.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "lookaside.instagram.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "instagram.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "cdninstagram.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "fbcdn.net"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "fbsbx.com"
+                }
+        ]
+  },
+  "Line": {
+    color: "#06c755",
+    icon: "💬",
+    description: "LINE messaging platform",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "line.me"
+                },
+                {
+                        "type": "HOST",
+                        "value": "access.line.me"
+                },
+                {
+                        "type": "HOST",
+                        "value": "account.line.biz"
+                },
+                {
+                        "type": "HOST",
+                        "value": "manager.line.biz"
+                },
+                {
+                        "type": "HOST",
+                        "value": "developers.line.biz"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api.line.me"
+                },
+                {
+                        "type": "HOST",
+                        "value": "notify-api.line.me"
+                },
+                {
+                        "type": "HOST",
+                        "value": "notify-bot.line.me"
+                },
+                {
+                        "type": "HOST",
+                        "value": "lin.ee"
+                },
+                {
+                        "type": "HOST",
+                        "value": "line.naver.jp"
+                },
+                {
+                        "type": "HOST",
+                        "value": "obs.line-apps.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "legy-jp.line.naver.jp"
+                },
+                {
+                        "type": "HOST",
+                        "value": "gw.line.naver.jp"
+                },
+                {
+                        "type": "HOST",
+                        "value": "dl.stickershop.line.naver.jp"
+                },
+                {
+                        "type": "HOST",
+                        "value": "dl.profile.line.naver.jp"
+                },
+                {
+                        "type": "HOST",
+                        "value": "dl.shop.line.naver.jp"
+                },
+                {
+                        "type": "HOST",
+                        "value": "dl.line-cdn.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "line-scdn.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "scdn.line-apps.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "vos.line-scdn.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "profile.line-scdn.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "line-apps.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "linecorp.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "line.me"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "lin.ee"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "line.naver.jp"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "line-scdn.net"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "line-cdn.net"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "line-apps.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "linecorp.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "line.biz"
+                }
+        ]
+  },
+  "LY": {
+    color: "#10b981",
+    icon: "🎮",
+    description: "LY gaming & admin services",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "adminjs.abigame.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "back-dev.8aurkw8cwv.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "back-uat.8aurkw8cwv.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "backstage.adlyoispqg.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "abigame.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "demo-dev.8aurkw8cwv.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "demo-uat.8aurkw8cwv.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "demo.abslot.xyz"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.abg000.net"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "adminjs.abigame.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "back-dev.8aurkw8cwv.org"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "back-uat.8aurkw8cwv.org"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "backstage.adlyoispqg.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "abigame.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "demo-dev.8aurkw8cwv.org"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "demo-uat.8aurkw8cwv.org"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "demo.abslot.xyz"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "www.abg000.net"
+                }
+        ]
+  },
+  "OpenAI": {
+    color: "#10a37f",
+    icon: "🤖",
+    description: "ChatGPT, OpenAI API, and services",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "chatgpt.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "chat.openai.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "ios.chat.openai.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "android.chat.openai.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "desktop.chat.openai.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "ws.chatgpt.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "tcr9i.chat.openai.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api.openai.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "sip.api.openai.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "auth0.openai.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "setup.auth.openai.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "setup.workos.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "forwarder.workos.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "cdn.workos.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "images.workoscdn.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "workos.imgix.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "challenges.cloudflare.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "cdn.openaimerge.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "events.statsigapi.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "o207216.ingest.sentry.io"
+                },
+                {
+                        "type": "HOST",
+                        "value": "o33249.ingest.sentry.io"
+                },
+                {
+                        "type": "HOST",
+                        "value": "rum.browser-intake-datadoghq.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "js.intercomcdn.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "js.stripe.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "humb.apple.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "chatgpt.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "openai.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "auth.openai.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "oaistatic.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "oaiusercontent.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "openaimerge.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "featuregates.org"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "featureassets.org"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "prodregistryv2.org"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "statsig.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "statsigapi.net"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "ct.sendgrid.net"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "intercom.io"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "intercomcdn.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "workos.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "workoscdn.com"
+                }
+        ]
+  },
+  "AV": {
+    color: "#ec4899",
+    icon: "🔞",
+    description: "Adult video streaming services",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "missav.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "jable.tv"
+                },
+                {
+                        "type": "HOST",
+                        "value": "njav.tv"
+                },
+                {
+                        "type": "HOST",
+                        "value": "javdb.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "javbus.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "javlibrary.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "jav321.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "jav.guru"
+                },
+                {
+                        "type": "HOST",
+                        "value": "javmost.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "javhd.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "avgle.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "supjav.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "netflav.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "thisav.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "fc2.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "fc2ppvdb.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "pornhub.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.pornhub.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "phncdn.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "xvideos.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.xvideos.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "xnxx.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.xnxx.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "xhamster.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.xhamster.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "redtube.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.redtube.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "youporn.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.youporn.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "spankbang.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.spankbang.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "eporner.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.eporner.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "txxx.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.txxx.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "hanime.tv"
+                },
+                {
+                        "type": "HOST",
+                        "value": "iwara.tv"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "missav.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "jable.tv"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "njav.tv"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "javdb.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "javbus.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "javlibrary.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "jav321.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "jav.guru"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "javmost.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "javhd.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "avgle.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "supjav.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "netflav.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "thisav.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "fc2.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "fc2ppvdb.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "pornhub.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "phncdn.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "xvideos.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "xnxx.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "xhamster.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "redtube.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "youporn.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "spankbang.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "eporner.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "txxx.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "hanime.tv"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "iwara.tv"
+                }
+        ]
+  },
+  "PHP": {
+    color: "#8892bf",
+    icon: "🐘",
+    description: "PHP Composer (Packagist)",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "repo.packagist.org"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "repo.packagist.org"
+                }
+        ]
+  },
+  "Spotify": {
+    color: "#1db954",
+    icon: "🎵",
+    description: "Spotify music streaming",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "spotify.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.spotify.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "open.spotify.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "play.spotify.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "accounts.spotify.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "login.spotify.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api.spotify.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api-partner.spotify.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "apresolve.spotify.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "gew1-spclient.spotify.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "spclient.wg.spotify.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "clienttoken.spotify.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "developer.spotify.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "audio-fa.scdn.co"
+                },
+                {
+                        "type": "HOST",
+                        "value": "audio-ak-spotify-com.akamaized.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "heads-fa.scdn.co"
+                },
+                {
+                        "type": "HOST",
+                        "value": "i.scdn.co"
+                },
+                {
+                        "type": "HOST",
+                        "value": "lineup-images.scdn.co"
+                },
+                {
+                        "type": "HOST",
+                        "value": "quicksilver.scdn.co"
+                },
+                {
+                        "type": "HOST",
+                        "value": "video-fa.scdn.co"
+                },
+                {
+                        "type": "HOST",
+                        "value": "video-akpcw.spotifycdn.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "open.spotifycdn.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "spotifycdn.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "spotifycdn.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "scdn.co"
+                },
+                {
+                        "type": "HOST",
+                        "value": "pscdn.co"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "spotify.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "spotifycdn.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "spotifycdn.net"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "scdn.co"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "pscdn.co"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "spoti.fi"
+                }
+        ]
+  },
+  "Telegram": {
+    color: "#26a5e4",
+    icon: "✈️",
+    description: "Telegram messaging",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "telegram.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "desktop.telegram.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "macos.telegram.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "web.telegram.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "core.telegram.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api.telegram.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "oauth.telegram.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "login.telegram.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "updates.telegram.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "t.me"
+                },
+                {
+                        "type": "HOST",
+                        "value": "telegram.me"
+                },
+                {
+                        "type": "HOST",
+                        "value": "telegram.dog"
+                },
+                {
+                        "type": "HOST",
+                        "value": "cdn-telegram.org"
+                },
+                {
+                        "type": "HOST",
+                        "value": "telegra.ph"
+                },
+                {
+                        "type": "HOST",
+                        "value": "graph.org"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "telegram.org"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "telegram.me"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "telegram.dog"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "t.me"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "cdn-telegram.org"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "telegra.ph"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "graph.org"
+                },
+                {
+                        "type": "IP-CIDR",
+                        "value": "91.108.4.0/22"
+                },
+                {
+                        "type": "IP-CIDR",
+                        "value": "91.108.8.0/22"
+                },
+                {
+                        "type": "IP-CIDR",
+                        "value": "91.108.12.0/22"
+                },
+                {
+                        "type": "IP-CIDR",
+                        "value": "91.108.16.0/22"
+                },
+                {
+                        "type": "IP-CIDR",
+                        "value": "91.108.20.0/22"
+                },
+                {
+                        "type": "IP-CIDR",
+                        "value": "91.108.56.0/22"
+                },
+                {
+                        "type": "IP-CIDR",
+                        "value": "95.161.64.0/20"
+                },
+                {
+                        "type": "IP-CIDR",
+                        "value": "149.154.160.0/20"
+                }
+        ]
+  },
+  "Threads": {
+    color: "#000000",
+    icon: "🧵",
+    description: "Threads by Instagram",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "threads.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.threads.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "threads.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.threads.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "threads.instagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "help.instagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "graph.instagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "i.instagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "cdninstagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "scontent.cdninstagram.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "instagram.fna.fbcdn.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "fbcdn.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "scontent.xx.fbcdn.net"
+                },
+                {
+                        "type": "HOST",
+                        "value": "fbsbx.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "threads.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "threads.net"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "instagram.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "cdninstagram.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "fbcdn.net"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "fbsbx.com"
+                }
+        ]
+  },
+  "X": {
+    color: "#1da1f2",
+    icon: "🐦",
+    description: "X (Twitter) social platform",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "x.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.x.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api.x.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "ads.x.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "help.x.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "business.x.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "developer.x.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "pro.x.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "twitter.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.twitter.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "mobile.twitter.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api.twitter.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "upload.twitter.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "abs.twimg.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "api-verify.twitter.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "twitteroauth.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "t.co"
+                },
+                {
+                        "type": "HOST",
+                        "value": "twimg.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "pbs.twimg.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "video.twimg.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "ton.twimg.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "abs-0.twimg.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "platform.twitter.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "syndication.twitter.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "cdn.syndication.twimg.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "urls.api.twitter.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "x.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "twitter.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "t.co"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "twimg.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "twitteroauth.com"
+                }
+        ]
+  },
+  "YouTube": {
+    color: "#ff0000",
+    icon: "▶️",
+    description: "YouTube video streaming",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "youtube.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.youtube.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "m.youtube.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "kids.youtube.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "music.youtube.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "studio.youtube.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "tv.youtube.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "accounts.youtube.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "consent.youtube.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "gaming.youtube.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "upload.youtube.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "youtu.be"
+                },
+                {
+                        "type": "HOST",
+                        "value": "yt.be"
+                },
+                {
+                        "type": "HOST",
+                        "value": "youtube-nocookie.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.youtube-nocookie.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "youtubeeducation.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "youtubei.googleapis.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "youtube.googleapis.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "youtubeembeddedplayer.googleapis.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.googleapis.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "youtube-ui.l.google.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "youtube.l.google.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "googlevideo.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "ytimg.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "i.ytimg.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "i1.ytimg.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "i2.ytimg.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "i3.ytimg.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "i4.ytimg.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "s.ytimg.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "ytimg.l.google.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "ggpht.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "yt3.ggpht.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "lh3.googleusercontent.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "youtube.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "youtu.be"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "yt.be"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "youtube-nocookie.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "youtubeeducation.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "googlevideo.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "ytimg.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "ggpht.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "youtubei.googleapis.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "youtube.googleapis.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "youtubeembeddedplayer.googleapis.com"
+                }
+        ]
+  },
+  "Zoom": {
+    color: "#2d8cff",
+    icon: "🎥",
+    description: "Zoom video conferencing",
+    rules: [
+                {
+                        "type": "HOST",
+                        "value": "zoom.us"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.zoom.us"
+                },
+                {
+                        "type": "HOST",
+                        "value": "us02web.zoom.us"
+                },
+                {
+                        "type": "HOST",
+                        "value": "us04web.zoom.us"
+                },
+                {
+                        "type": "HOST",
+                        "value": "zoom.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.zoom.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "zoomgov.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "www.zoomgov.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "zoomcdn.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "zoomcloudmeetings.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "zoomus.cn"
+                },
+                {
+                        "type": "HOST",
+                        "value": "zoom.com.cn"
+                },
+                {
+                        "type": "HOST",
+                        "value": "zoom.us.cn"
+                },
+                {
+                        "type": "HOST",
+                        "value": "zoomdev.us"
+                },
+                {
+                        "type": "HOST",
+                        "value": "zoomstatus.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "zpns.zoom.us"
+                },
+                {
+                        "type": "HOST",
+                        "value": "cloud.zoom.us"
+                },
+                {
+                        "type": "HOST",
+                        "value": "phone.zoom.us"
+                },
+                {
+                        "type": "HOST",
+                        "value": "events.zoom.us"
+                },
+                {
+                        "type": "HOST",
+                        "value": "marketplace.zoom.us"
+                },
+                {
+                        "type": "HOST",
+                        "value": "support.zoom.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "community.zoom.com"
+                },
+                {
+                        "type": "HOST",
+                        "value": "st1.zoom.us"
+                },
+                {
+                        "type": "HOST",
+                        "value": "st2.zoom.us"
+                },
+                {
+                        "type": "HOST",
+                        "value": "st3.zoom.us"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "zoom.us"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "zoom.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "zoomgov.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "zoomcdn.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "zoomcloudmeetings.com"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "zoomus.cn"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "zoom.com.cn"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "zoom.us.cn"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "zoomdev.us"
+                },
+                {
+                        "type": "HOST-SUFFIX",
+                        "value": "zoomstatus.com"
+                }
+        ]
+  }
+};
+
+// ── State ──
+const state = {
+  activeService: null,
+  results: {},           // { serviceKey: { domain: resultObj } }
+  testing: false,
+  abortControllers: [],
+  concurrency: 6,
+  testTimeout: 8000,
+  dnsCache: new Map(),     // domain -> { ips, ts }
+  dnsCacheTTL: 300000,     // 5 min
+};
+
+// ── Init ──
+function init() {
+  if (window.location.protocol === 'file:') {
+    document.getElementById('warning-banner').classList.add('show');
+  }
+  document.getElementById('concurrency-input').value = state.concurrency;
+  buildSummaryDashboard();
+  buildServiceTabs();
+  selectService(Object.keys(SERVICES)[0]);
+
+  // Event listeners
+  document.getElementById('btn-test-all').addEventListener('click', testAllServices);
+  document.getElementById('btn-stop').addEventListener('click', stopTesting);
+  document.getElementById('btn-clear-all').addEventListener('click', clearAll);
+  document.getElementById('btn-export').addEventListener('click', exportCSV);
+  document.getElementById('btn-test-selected').addEventListener('click', () => testService(state.activeService));
+  document.getElementById('btn-clear-selected').addEventListener('click', () => clearService(state.activeService));
+  document.getElementById('concurrency-input').addEventListener('change', e => {
+    const v = parseInt(e.target.value);
+    if (v >= 1 && v <= 20) state.concurrency = v;
+  });
+}
+
+// ── Service Tabs ──
+function buildServiceTabs() {
+  const nav = document.getElementById('service-tabs');
+  nav.innerHTML = '';
+  for (const key of Object.keys(SERVICES)) {
+    const btn = document.createElement('button');
+    const meta = SERVICES[key];
+    btn.textContent = `${meta.icon} ${key}`;
+    btn.title = meta.description;
+    btn.addEventListener('click', () => selectService(key));
+    nav.appendChild(btn);
+  }
+}
+
+function selectService(key) {
+  state.activeService = key;
+  // Update tabs
+  document.querySelectorAll('#service-tabs button').forEach(b => b.classList.remove('active'));
+  const tabBtn = Array.from(document.querySelectorAll('#service-tabs button')).find(b => b.textContent.includes(key));
+  if (tabBtn) tabBtn.classList.add('active');
+  // Update header
+  const meta = SERVICES[key];
+  document.getElementById('service-name').textContent = `${meta.icon} ${key}`;
+  document.getElementById('service-description').textContent = meta.description;
+  // Render
+  renderResultsTable(key);
+  updateServiceStats(key);
+  // Update cards
+  document.querySelectorAll('.summary-card').forEach(c => c.classList.remove('active'));
+  const card = document.querySelector(`.summary-card[data-service="${key}"]`);
+  if (card) card.classList.add('active');
+}
+
+// ── Deduplicate domains ──
+function getUniqueDomains(serviceKey) {
+  const seen = new Set();
+  const domains = [];
+  const meta = SERVICES[serviceKey];
+  if (!meta) return domains;
+  for (const rule of meta.rules) {
+    if (rule.type === 'IP-CIDR' || rule.type === 'IP6-CIDR') continue;
+    const domain = rule.value;
+    if (!seen.has(domain)) {
+      seen.add(domain);
+      // Collect all rule types for this domain
+      const types = meta.rules.filter(r => r.value === domain && r.type !== 'IP-CIDR' && r.type !== 'IP6-CIDR').map(r => r.type);
+      domains.push({ domain, ruleType: [...new Set(types)].join(', ') });
+    }
+  }
+  return domains;
+}
+
+// ── Render Table ──
+function renderResultsTable(serviceKey) {
+  const tbody = document.getElementById('results-tbody');
+  const domains = getUniqueDomains(serviceKey);
+  const svcResults = state.results[serviceKey] || {};
+
+  tbody.innerHTML = '';
+  domains.forEach((d, i) => {
+    const tr = document.createElement('tr');
+    const r = svcResults[d.domain];
+    if (r) {
+      tr.classList.add(r.status);
+    }
+    tr.innerHTML = `
+      <td>${i + 1}</td>
+      <td>${d.domain}</td>
+      <td><span class="rule-type-tag ${d.ruleType.replace(/[, ]/g, '-').toLowerCase()}">${d.ruleType}</span></td>
+      <td>${r ? statusBadge(r) : '<span class="status-badge untested">○ Untested</span>'}</td>
+      <td>${r && r.latency !== null ? latencyDisplay(r.latency) : '-'}</td>
+      <td><div class="ip-list">${r && r.ips ? r.ips.map(ip => `<span>${ip}</span>`).join('') : (r && r.status === 'testing' ? '<span class="spinner"></span>' : '-')}</div></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function statusBadge(r) {
+  switch (r.status) {
+    case 'testing': return '<span class="status-badge testing"><span class="spinner"></span> Testing…</span>';
+    case 'reachable': return '<span class="status-badge reachable">● Reachable</span>';
+    case 'slow': return '<span class="status-badge slow">● Slow</span>';
+    case 'unreachable': return `<span class="status-badge unreachable" title="${r.error || ''}">● Unreachable</span>`;
+    case 'skipped': return '<span class="status-badge skipped">— Skipped</span>';
+    default: return '<span class="status-badge untested">○ Untested</span>';
+  }
+}
+
+function latencyDisplay(ms) {
+  let cls = 'fast';
+  if (ms > 800) cls = 'slow';
+  else if (ms > 200) cls = 'medium';
+  return `<span class="latency ${cls}">${ms}ms</span>`;
+}
+
+function updateDomainRow(serviceKey, domain, result) {
+  if (state.activeService !== serviceKey) return;
+  const tbody = document.getElementById('results-tbody');
+  const rows = tbody.querySelectorAll('tr');
+  const domains = getUniqueDomains(serviceKey);
+  const idx = domains.findIndex(d => d.domain === domain);
+  if (idx < 0 || idx >= rows.length) return;
+  const tr = rows[idx];
+  tr.className = result.status;
+  tr.cells[3].innerHTML = statusBadge(result);
+  tr.cells[4].innerHTML = result.latency !== null ? latencyDisplay(result.latency) : '-';
+  tr.cells[5].innerHTML = result.ips ? `<div class="ip-list">${result.ips.map(ip => `<span>${ip}</span>`).join('')}</div>` : '-';
+}
+
+// ── Update Stats ──
+function updateServiceStats(serviceKey) {
+  const svcResults = state.results[serviceKey] || {};
+  const domains = getUniqueDomains(serviceKey);
+  let tested = 0, reachable = 0, unreachable = 0, totalLatency = 0, latencyCount = 0;
+
+  for (const d of domains) {
+    const r = svcResults[d.domain];
+    if (r && r.status !== 'untested' && r.status !== 'testing' && r.status !== 'skipped') {
+      tested++;
+      if (r.status === 'reachable' || r.status === 'slow') reachable++;
+      else unreachable++;
+      if (r.latency !== null) { totalLatency += r.latency; latencyCount++; }
+    }
+  }
+
+  document.getElementById('stat-total').textContent = domains.length;
+  document.getElementById('stat-reachable').textContent = reachable;
+  document.getElementById('stat-unreachable').textContent = unreachable;
+  document.getElementById('stat-avg-latency').textContent = latencyCount > 0 ? `${Math.round(totalLatency / latencyCount)}ms` : '-';
+
+  // Update summary card
+  updateSummaryCard(serviceKey);
+}
+
+function updateSummaryCard(serviceKey) {
+  const card = document.querySelector(`.summary-card[data-service="${serviceKey}"]`);
+  if (!card) return;
+  const svcResults = state.results[serviceKey] || {};
+  const domains = getUniqueDomains(serviceKey);
+  let tested = 0, reachable = 0;
+  for (const d of domains) {
+    const r = svcResults[d.domain];
+    if (r && r.status !== 'untested' && r.status !== 'testing' && r.status !== 'skipped') {
+      tested++;
+      if (r.status === 'reachable' || r.status === 'slow') reachable++;
+    }
+  }
+  const pct = tested > 0 ? Math.round((reachable / tested) * 100) : null;
+  const bar = card.querySelector('.sc-bar-fill');
+  const statusEl = card.querySelector('.sc-status');
+
+  if (pct === null) {
+    statusEl.textContent = 'Not tested';
+    statusEl.style.color = 'var(--text2)';
+    bar.style.width = '0%';
+    bar.style.background = 'var(--text2)';
+  } else {
+    statusEl.textContent = `${reachable}/${tested} reachable (${pct}%)`;
+    if (pct >= 80) { statusEl.style.color = 'var(--green)'; bar.style.background = 'var(--green)'; }
+    else if (pct >= 50) { statusEl.style.color = 'var(--yellow)'; bar.style.background = 'var(--yellow)'; }
+    else { statusEl.style.color = 'var(--red)'; bar.style.background = 'var(--red)'; }
+    bar.style.width = `${pct}%`;
+  }
+}
+
+// ── Build Summary Dashboard ──
+function buildSummaryDashboard() {
+  const dash = document.getElementById('summary-dashboard');
+  dash.innerHTML = '';
+  for (const key of Object.keys(SERVICES)) {
+    const meta = SERVICES[key];
+    const card = document.createElement('div');
+    card.className = 'summary-card';
+    card.dataset.service = key;
+    card.innerHTML = `
+      <span class="sc-icon">${meta.icon}</span><span class="sc-name">${key}</span>
+      <div class="sc-status" style="color:var(--text2)">Not tested</div>
+      <div class="sc-bar-bg"><div class="sc-bar-fill" style="width:0%;background:var(--text2)"></div></div>
+    `;
+    card.addEventListener('click', () => selectService(key));
+    dash.appendChild(card);
+  }
+}
+
+// ── DNS Resolution ──
+async function resolveDNS(domain) {
+  // Check cache
+  const cached = state.dnsCache.get(domain);
+  if (cached && (Date.now() - cached.ts) < state.dnsCacheTTL) {
+    return cached;
+  }
+
+  // Try Cloudflare DoH
+  try {
+    const url = `https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(domain)}&type=A`;
+    const resp = await fetch(url, { headers: { 'Accept': 'application/dns-json' } });
+    const data = await resp.json();
+    if (data.Answer) {
+      const ips = data.Answer.filter(r => r.type === 1).map(r => r.data);
+      const result = { ips, source: 'cloudflare', ts: Date.now() };
+      state.dnsCache.set(domain, result);
+      return result;
+    }
+  } catch(e) { /* fall through */ }
+
+  // Try Google DoH
+  try {
+    const url = `https://dns.google/resolve?name=${encodeURIComponent(domain)}&type=A`;
+    const resp = await fetch(url);
+    const data = await resp.json();
+    if (data.Answer) {
+      const ips = data.Answer.filter(r => r.type === 1).map(r => r.data);
+      const result = { ips, source: 'google', ts: Date.now() };
+      state.dnsCache.set(domain, result);
+      return result;
+    }
+  } catch(e) { /* fall through */ }
+
+  return { ips: [], source: null, ts: Date.now() };
+}
+
+// ── Connectivity Test ──
+async function testConnectivity(domain, signal) {
+  const start = performance.now();
+  try {
+    const url = `https://${domain}/favicon.ico`;
+    await fetch(url, {
+      mode: 'no-cors',
+      signal,
+      cache: 'no-store',
+    });
+    const latency = Math.round(performance.now() - start);
+    return { reachable: true, latency };
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      return { reachable: false, latency: null, error: 'Timeout or cancelled' };
+    }
+    // Try image fallback for strict CORS domains
+    return await testWithImage(domain, signal);
+  }
+}
+
+function testWithImage(domain, signal) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const start = performance.now();
+
+    const cleanup = () => {
+      clearTimeout(timeoutId);
+      img.remove();
+    };
+
+    const timeoutId = setTimeout(() => {
+      cleanup();
+      resolve({ reachable: false, latency: null, error: 'Timeout' });
+    }, state.testTimeout);
+
+    const abortHandler = () => {
+      cleanup();
+      resolve({ reachable: false, latency: null, error: 'Cancelled' });
+    };
+    if (signal) signal.addEventListener('abort', abortHandler, { once: true });
+
+    img.onload = () => {
+      cleanup();
+      if (signal) signal.removeEventListener('abort', abortHandler);
+      resolve({ reachable: true, latency: Math.round(performance.now() - start) });
+    };
+    img.onerror = () => {
+      cleanup();
+      if (signal) signal.removeEventListener('abort', abortHandler);
+      // onerror on 404 = server IS reachable
+      resolve({ reachable: true, latency: Math.round(performance.now() - start) });
+    };
+    img.src = `https://${domain}/favicon.ico?r=${Math.random()}`;
+  });
+}
+
+// ── Test One Domain ──
+async function testDomain(serviceKey, domainEntry, signal) {
+  const domain = domainEntry.domain;
+
+  // Mark as testing
+  state.results[serviceKey] = state.results[serviceKey] || {};
+  state.results[serviceKey][domain] = { domain, ruleType: domainEntry.ruleType, status: 'testing', latency: null, ips: [], error: null };
+  updateDomainRow(serviceKey, domain, state.results[serviceKey][domain]);
+
+  // Run DNS and connectivity in parallel
+  const [dnsResult, connResult] = await Promise.all([
+    resolveDNS(domain),
+    testConnectivity(domain, signal),
+  ]);
+
+  // Determine status
+  let status = 'unreachable';
+  if (connResult.reachable) {
+    status = connResult.latency > 800 ? 'slow' : 'reachable';
+  }
+
+  const result = {
+    domain,
+    ruleType: domainEntry.ruleType,
+    status,
+    latency: connResult.latency,
+    ips: dnsResult.ips,
+    error: connResult.error || null,
+  };
+
+  state.results[serviceKey][domain] = result;
+  updateDomainRow(serviceKey, domain, result);
+  updateServiceStats(serviceKey);
+  return result;
+}
+
+// ── Test All Domains for a Service (concurrent workers) ──
+async function testService(serviceKey) {
+  if (state.testing) return;
+  state.testing = true;
+  updateUIForTesting(true);
+
+  const domains = getUniqueDomains(serviceKey);
+
+  // Initialize results
+  state.results[serviceKey] = state.results[serviceKey] || {};
+  for (const d of domains) {
+    if (!state.results[serviceKey][d.domain] || state.results[serviceKey][d.domain].status === 'skipped') {
+      state.results[serviceKey][d.domain] = { domain: d.domain, ruleType: d.ruleType, status: 'testing', latency: null, ips: [], error: null };
+    }
+  }
+  renderResultsTable(serviceKey);
+
+  // Filter to only untested/testing domains
+  const toTest = domains.filter(d => {
+    const r = state.results[serviceKey][d.domain];
+    return r && (r.status === 'untested' || r.status === 'testing');
+  });
+
+  const queue = [...toTest];
+  const total = queue.length;
+  let completed = 0;
+
+  const controller = new AbortController();
+  state.abortControllers.push(controller);
+
+  async function worker() {
+    while (queue.length > 0 && !controller.signal.aborted) {
+      const entry = queue.shift();
+      await testDomain(serviceKey, entry, controller.signal);
+      completed++;
+      updateGlobalProgress(completed, total);
+    }
+  }
+
+  const workers = Array(Math.min(state.concurrency, queue.length)).fill().map(() => worker());
+  await Promise.all(workers);
+
+  state.abortControllers = state.abortControllers.filter(c => c !== controller);
+  state.testing = false;
+  updateUIForTesting(false);
+  updateGlobalProgress(0, 0);
+}
+
+// ── Test All Services ──
+async function testAllServices() {
+  if (state.testing) return;
+  const serviceKeys = Object.keys(SERVICES);
+
+  if (serviceKeys.length > 5) {
+    const ok = confirm(`Test all ${serviceKeys.length} services? This will make many requests and may take a while.`);
+    if (!ok) return;
+  }
+
+  state.testing = true;
+  updateUIForTesting(true);
+
+  let totalDomains = 0;
+  let completedDomains = 0;
+  for (const key of serviceKeys) {
+    totalDomains += getUniqueDomains(key).length;
+  }
+
+  for (const key of serviceKeys) {
+    if (!state.testing) break;
+    selectService(key);
+
+    const domains = getUniqueDomains(key);
+    state.results[key] = state.results[key] || {};
+
+    // Init
+    for (const d of domains) {
+      const existing = state.results[key][d.domain];
+      if (!existing || existing.status === 'skipped' || existing.status === 'untested') {
+        state.results[key][d.domain] = { domain: d.domain, ruleType: d.ruleType, status: 'testing', latency: null, ips: [], error: null };
+      }
+    }
+    renderResultsTable(key);
+
+    const toTest = domains.filter(d => {
+      const r = state.results[key][d.domain];
+      return r && (r.status === 'untested' || r.status === 'testing');
+    });
+
+    const queue = [...toTest];
+    const controller = new AbortController();
+    state.abortControllers.push(controller);
+
+    async function worker() {
+      while (queue.length > 0 && !controller.signal.aborted) {
+        const entry = queue.shift();
+        await testDomain(key, entry, controller.signal);
+        completedDomains++;
+        updateGlobalProgress(completedDomains, totalDomains);
+      }
+    }
+
+    const workers = Array(Math.min(state.concurrency, queue.length)).fill().map(() => worker());
+    await Promise.all(workers);
+    state.abortControllers = state.abortControllers.filter(c => c !== controller);
+
+    if (!state.testing) break;
+  }
+
+  state.testing = false;
+  updateUIForTesting(false);
+  updateGlobalProgress(0, 0);
+}
+
+// ── Helpers ──
+function stopTesting() {
+  state.abortControllers.forEach(c => c.abort());
+  state.abortControllers = [];
+  state.testing = false;
+  updateUIForTesting(false);
+  updateGlobalProgress(0, 0);
+}
+
+function clearService(serviceKey) {
+  state.results[serviceKey] = {};
+  if (state.activeService === serviceKey) {
+    renderResultsTable(serviceKey);
+    updateServiceStats(serviceKey);
+  }
+  updateSummaryCard(serviceKey);
+}
+
+function clearAll() {
+  state.results = {};
+  state.dnsCache.clear();
+  if (state.activeService) {
+    renderResultsTable(state.activeService);
+    updateServiceStats(state.activeService);
+  }
+  for (const key of Object.keys(SERVICES)) {
+    updateSummaryCard(key);
+  }
+}
+
+function updateUIForTesting(testing) {
+  document.getElementById('btn-test-all').disabled = testing;
+  document.getElementById('btn-test-selected').disabled = testing;
+  const stopBtn = document.getElementById('btn-stop');
+  if (testing) stopBtn.classList.add('show');
+  else stopBtn.classList.remove('show');
+}
+
+function updateGlobalProgress(completed, total) {
+  const el = document.getElementById('global-progress');
+  const bar = document.getElementById('global-progress-bar');
+  if (total > 0) {
+    el.classList.add('show');
+    bar.style.width = `${Math.round((completed / total) * 100)}%`;
+  } else {
+    el.classList.remove('show');
+    bar.style.width = '0%';
+  }
+}
+
+function exportCSV() {
+  let csv = 'Service,Domain,RuleType,Status,Latency,IPs\n';
+  for (const key of Object.keys(SERVICES)) {
+    const svcResults = state.results[key] || {};
+    const domains = getUniqueDomains(key);
+    for (const d of domains) {
+      const r = svcResults[d.domain];
+      const status = r ? r.status : 'untested';
+      const latency = (r && r.latency !== null) ? r.latency : '';
+      const ips = (r && r.ips) ? r.ips.join('; ') : '';
+      csv += `"${key}","${d.domain}","${d.ruleType}","${status}","${latency}","${ips}"\n`;
+    }
+  }
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'quanx-diagnostic.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
