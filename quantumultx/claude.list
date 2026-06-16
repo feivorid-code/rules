@@ -1,0 +1,30 @@
+# Claude
+
+# Claude web, desktop, mobile apps, API, and account authentication.
+HOST,api.anthropic.com,Claude
+HOST,claude.ai,Claude
+HOST,platform.claude.com,Claude
+
+# Desktop installer, native auto-updater, and plugin executable downloads.
+HOST,downloads.claude.ai,Claude
+HOST,storage.googleapis.com,Claude
+
+# Mobile app store download pages.
+HOST,apps.apple.com,Claude
+HOST,play.google.com,Claude
+
+# Claude in Chrome extension WebSocket bridge.
+HOST,bridge.claudeusercontent.com,Claude
+
+# Release notes and plugin marketplace metadata.
+HOST,raw.githubusercontent.com,Claude
+
+# Broad coverage for current and future Claude and Claude Code clients.
+HOST-SUFFIX,anthropic.com,Claude
+HOST-SUFFIX,claude.ai,Claude
+HOST-SUFFIX,claude.com,Claude
+HOST-SUFFIX,claudeusercontent.com,Claude
+HOST-SUFFIX,storage.googleapis.com,Claude
+HOST-SUFFIX,apps.apple.com,Claude
+HOST-SUFFIX,play.google.com,Claude
+HOST-SUFFIX,raw.githubusercontent.com,Claude
