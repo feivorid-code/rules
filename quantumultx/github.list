@@ -38,6 +38,9 @@ HOST,actions.githubusercontent.com,GitHub
 
 # GitHub Copilot and coding-agent endpoints.
 HOST,api.githubcopilot.com,GitHub
+HOST,api.individual.githubcopilot.com,GitHub
+HOST,api.business.githubcopilot.com,GitHub
+HOST,api.enterprise.githubcopilot.com,GitHub
 HOST,copilot-proxy.githubusercontent.com,GitHub
 HOST,proxy.individual.githubcopilot.com,GitHub
 HOST,proxy.business.githubcopilot.com,GitHub
