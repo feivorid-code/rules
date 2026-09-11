@@ -28,6 +28,7 @@ HOST,admin.thesvault.xyz,Conti
 HOST,ui8o.sony-888.com,Conti
 HOST,yuemu.org,Conti
 HOST,b8cfff2a4jquxdbmwbaj.wgetcloud.org,Conti
+HOST,jumpserver.fcsops.com,Conti
 
 
 
@@ -59,3 +60,4 @@ HOST-SUFFIX,admin.thesvault.xyz,Conti
 HOST-SUFFIX,ui8o.sony-888.com,Conti
 HOST-SUFFIX,yuemu.org,Conti
 HOST-SUFFIX,b8cfff2a4jquxdbmwbaj.wgetcloud.org,Conti
+HOST-SUFFIX,jumpserver.fcsops.com,Conti
