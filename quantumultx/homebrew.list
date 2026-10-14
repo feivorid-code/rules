@@ -4,3 +4,7 @@ HOST,formulae.brew.sh,Homebrew
 HOST,brew.sh,Homebrew
 HOST-SUFFIX,formulae.brew.sh,Homebrew
 HOST-SUFFIX,brew.sh,Homebrew
+
+# OrbStack updates (appcast + dmg download)
+HOST,api-updates.orbstack.dev,Homebrew
+HOST,cdn-updates.orbstack.dev,Homebrew
