@@ -35,6 +35,7 @@ HOST,jjimapp.com,Conti
 HOST,hhkspay.com,Conti
 HOST,devweb1166.site,Conti
 HOST,ssjpay.com,Conti
+HOST,daydayluck.org,Conti
 
 
 
@@ -73,3 +74,4 @@ HOST-SUFFIX,jjimapp.com,Conti
 HOST-SUFFIX,hhkspay.com,Conti
 HOST-SUFFIX,devweb1166.site,Conti
 HOST-SUFFIX,ssjpay.com,Conti
+HOST-SUFFIX,daydayluck.org,Conti
