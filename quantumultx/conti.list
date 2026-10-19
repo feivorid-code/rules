@@ -36,6 +36,9 @@ HOST,hhkspay.com,Conti
 HOST,devweb1166.site,Conti
 HOST,ssjpay.com,Conti
 HOST,daydayluck.org,Conti
+HOST,3mmatrix.net,Conti
+HOST,3mmatrix.top,Conti
+HOST,3mmatrix.com,Conti
 
 
 
@@ -75,3 +78,6 @@ HOST-SUFFIX,hhkspay.com,Conti
 HOST-SUFFIX,devweb1166.site,Conti
 HOST-SUFFIX,ssjpay.com,Conti
 HOST-SUFFIX,daydayluck.org,Conti
+HOST-SUFFIX,3mmatrix.net,Conti
+HOST-SUFFIX,3mmatrix.top,Conti
+HOST-SUFFIX,3mmatrix.com,Conti
