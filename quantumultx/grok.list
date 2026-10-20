@@ -1,0 +1,16 @@
+# Grok
+
+# Grok web, mobile apps, and account authentication.
+HOST,grok.com,Grok
+HOST,www.grok.com,Grok
+HOST,accounts.x.ai,Grok
+
+# xAI API, console, and developer docs.
+HOST,api.x.ai,Grok
+HOST,console.x.ai,Grok
+HOST,docs.x.ai,Grok
+
+# Broad coverage for current and future Grok/xAI clients.
+HOST-SUFFIX,grok.com,Grok
+HOST-SUFFIX,x.ai,Grok
+HOST-SUFFIX,xai.io,Grok
