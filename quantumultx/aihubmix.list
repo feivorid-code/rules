@@ -1,0 +1,12 @@
+# AIHubMix
+
+# AIHubMix website, console, and docs.
+HOST,aihubmix.com,AIHubMix
+HOST,www.aihubmix.com,AIHubMix
+HOST,docs.aihubmix.com,AIHubMix
+
+# AIHubMix API endpoint.
+HOST,api.aihubmix.com,AIHubMix
+
+# Broad coverage for current and future AIHubMix subdomains.
+HOST-SUFFIX,aihubmix.com,AIHubMix
