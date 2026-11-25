@@ -1,0 +1,21 @@
+# Antigravity
+
+# Google sign-in and account authentication.
+HOST,accounts.google.com,Antigravity
+HOST,oauth2.googleapis.com,Antigravity
+HOST,www.googleapis.com,Antigravity
+HOST,lh3.googleusercontent.com,Antigravity
+
+# Antigravity agent and model APIs.
+HOST,cloudcode-pa.googleapis.com,Antigravity
+HOST,daily-cloudcode-pa.googleapis.com,Antigravity
+HOST,aicode.googleapis.com,Antigravity
+HOST,businessaicode.googleapis.com,Antigravity
+HOST,aiplatform.googleapis.com,Antigravity
+
+# Application downloads and updates.
+HOST,edgedl.me.gvt1.com,Antigravity
+HOST,storage.googleapis.com,Antigravity
+
+# Antigravity website and related subdomains.
+HOST-SUFFIX,antigravity.google,Antigravity
