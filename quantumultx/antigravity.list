@@ -1,17 +1,25 @@
-# Antigravity
-
-# Google sign-in and account authentication.
+# Google sign-in, region check, and Pro subscription verification.
 HOST,accounts.google.com,Antigravity
 HOST,oauth2.googleapis.com,Antigravity
 HOST,www.googleapis.com,Antigravity
+HOST,www.google.com,Antigravity
+HOST,one.google.com,Antigravity
+HOST,play.google.com,Antigravity
+HOST,myaccount.google.com,Antigravity
 HOST,lh3.googleusercontent.com,Antigravity
+HOST-SUFFIX,gstatic.com,Antigravity
 
-# Antigravity agent and model APIs.
+# Antigravity eligibility, agent, and model APIs.
+HOST,antigravity-pa.googleapis.com,Antigravity
 HOST,cloudcode-pa.googleapis.com,Antigravity
 HOST,daily-cloudcode-pa.googleapis.com,Antigravity
+HOST,autopush-cloudcode-pa.sandbox.googleapis.com,Antigravity
 HOST,aicode.googleapis.com,Antigravity
 HOST,businessaicode.googleapis.com,Antigravity
 HOST,aiplatform.googleapis.com,Antigravity
+HOST,generativelanguage.googleapis.com,Antigravity
+HOST,alkalimakersuite-pa.clients6.google.com,Antigravity
+HOST-KEYWORD,antigravity,Antigravity
 
 # Application downloads and updates.
 HOST,edgedl.me.gvt1.com,Antigravity
